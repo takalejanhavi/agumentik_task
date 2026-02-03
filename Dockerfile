@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# System deps
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -10,16 +10,29 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libicu-dev \
     default-mysql-client \
-    && docker-php-ext-install pdo pdo_mysql zip intl
+    && docker-php-ext-install \
+        pdo \
+        pdo_mysql \
+        mbstring \
+        zip \
+        intl \
+        xml \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Composer
+# Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-COPY . .
+# Copy only composer files first (cache optimization)
+COPY composer.json composer.lock ./
 
-RUN composer install --no-dev --optimize-autoloader
+# Install PHP dependencies
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+# Copy rest of the application
+COPY . .
 
 EXPOSE 10000
 
