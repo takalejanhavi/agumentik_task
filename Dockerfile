@@ -22,10 +22,7 @@ RUN apt-get update && apt-get install -y \
         intl \
         xml \
         gd \
-        curl \
-        fileinfo \
         bcmath \
-        openssl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -34,20 +31,20 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy composer files first
+# Copy composer files first (better caching)
 COPY composer.json composer.lock ./
 
-# Increase memory limit for Composer
+# Allow unlimited memory for composer
 ENV COMPOSER_MEMORY_LIMIT=-1
 
-# Install dependencies
+# Install PHP dependencies
 RUN composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
     --optimize-autoloader
 
-# Copy the rest of the app
+# Copy rest of application
 COPY . .
 
 EXPOSE 10000
