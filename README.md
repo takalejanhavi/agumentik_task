@@ -1,59 +1,170 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+🗳️ Real-Time Live Poll Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+with IP Restriction & Admin Moderation
 
-## About Laravel
+📌 Project Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project is a real-time web-based polling platform built as per the given problem statement.
+It allows authenticated users to participate in polls with strict IP-based voting restrictions, live result updates, and admin-controlled IP release with full audit history.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The system is implemented using Laravel for structure & authentication and Core PHP for voting logic, strictly following the required tech stack and constraints.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+⚙️ Tech Stack
 
-## Learning Laravel
+Backend: Laravel (Routing, Auth, Views) + Core PHP (Voting Logic)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Frontend: HTML, CSS, Bootstrap, JavaScript, jQuery
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+AJAX: Used for all interactions (no page reloads)
 
-## Laravel Sponsors
+Database: MySQL
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+🔐 Authentication
 
-### Premium Partners
+Only authenticated users can access polls and vote.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Login is mandatory before accessing any poll functionality.
 
-## Contributing
+Default Login Credentials
+Email: admin@test.com
+Password: password123
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+These credentials are created using a database seeder for easy evaluation.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+🧩 Modules Implemented
+✅ Module 1: Authentication & Poll Display
 
-## Security Vulnerabilities
+Login-based access control
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Admin can create polls with:
 
-## License
+Question
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Multiple options
+
+Active / Inactive status
+
+Only active polls are visible to users
+
+Poll list and poll view are loaded via AJAX
+
+No hardcoded poll data
+
+No page reload during navigation
+
+✅ Module 2: IP-Restricted Voting (Core Logic)
+
+One vote per poll per IP address
+
+Restriction enforced server-side using:
+
+Poll ID
+
+IP Address
+
+Vote data stored:
+
+Poll ID
+
+Selected option
+
+IP address
+
+Vote timestamp
+
+Voting handled via AJAX
+
+Duplicate voting from same IP is blocked with a clear message
+
+No page reload during voting
+
+✅ Module 3: Real-Time Poll Results
+
+Live vote counts displayed per option
+
+Results update automatically every ~1 second
+
+Implemented using AJAX polling
+
+No page refresh required
+
+Works across multiple tabs/devices
+
+✅ Module 4: IP Release, Vote Rollback & Audit History
+
+Admin can:
+
+View all IPs that voted on a poll
+
+Release an IP for a specific poll
+
+When IP is released:
+
+The vote is soft-removed from results
+
+Live results update immediately
+
+Same IP can vote again after release
+
+Full audit history preserved:
+
+Original vote
+
+Release timestamp
+
+New vote details
+
+Votes are never deleted, ensuring traceability
+
+🧪 How to Test (Evaluator Guide)
+
+Login using provided credentials
+
+Create a poll and mark it active
+
+Vote once → success
+
+Try voting again from same IP → blocked
+
+Observe live results updating automatically
+
+Open admin vote view
+
+Release IP
+
+Vote again from same IP → allowed
+
+Verify old vote is marked as released and history is preserved
+
+🚫 Constraints Followed
+
+❌ No frontend-only vote restriction
+
+❌ No hardcoded poll or vote logic
+
+❌ No page reload for voting, results, or IP release
+
+❌ No deletion of vote data without history
+
+🎯 Key Highlights
+
+Strict backend-enforced IP restriction
+
+Real-time updates without WebSockets
+
+Clean, simple, responsive UI
+
+Audit-safe vote rollback mechanism
+
+Fully compliant with the given problem statement
+
+📄 License
+
+This project is developed for evaluation purposes and follows the MIT License.
+
+✅ Final Note
+
+This implementation strictly follows the provided requirements, uses the mandated technologies, and handles all edge cases including IP release and audit history.
+
+Ready for evaluation and live demonstration.
