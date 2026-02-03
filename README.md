@@ -1,170 +1,98 @@
-🗳️ Real-Time Live Poll Platform
+Real-Time Live Poll Platform
+Overview
 
-with IP Restriction & Admin Moderation
+A web-based polling system where authenticated users can vote in polls with IP-based restrictions.
+Poll results update in real time, and admins can release an IP to allow re-voting while preserving vote history.
 
-📌 Project Overview
+Tech Stack
 
-This project is a real-time web-based polling platform built as per the given problem statement.
-It allows authenticated users to participate in polls with strict IP-based voting restrictions, live result updates, and admin-controlled IP release with full audit history.
+Laravel (routing, authentication, views)
 
-The system is implemented using Laravel for structure & authentication and Core PHP for voting logic, strictly following the required tech stack and constraints.
+Core PHP (voting and IP logic)
 
-⚙️ Tech Stack
+MySQL
 
-Backend: Laravel (Routing, Auth, Views) + Core PHP (Voting Logic)
+HTML, CSS, Bootstrap
 
-Frontend: HTML, CSS, Bootstrap, JavaScript, jQuery
+JavaScript, jQuery
 
-AJAX: Used for all interactions (no page reloads)
+AJAX (no page reloads)
 
-Database: MySQL
-
-🔐 Authentication
-
-Only authenticated users can access polls and vote.
-
-Login is mandatory before accessing any poll functionality.
-
-Default Login Credentials
+Login Credentials
 Email: admin@test.com
 Password: password123
 
+Features
+Module 1: Authentication & Polls
 
-These credentials are created using a database seeder for easy evaluation.
+Login required to access polls
 
-🧩 Modules Implemented
-✅ Module 1: Authentication & Poll Display
+Create polls with multiple options
 
-Login-based access control
+Active/inactive poll control
 
-Admin can create polls with:
+Only active polls visible
 
-Question
+Poll list and poll view loaded using AJAX
 
-Multiple options
+Module 2: IP-Restricted Voting
 
-Active / Inactive status
+One vote per poll per IP
 
-Only active polls are visible to users
+Server-side IP validation
 
-Poll list and poll view are loaded via AJAX
+Vote data stored with timestamp
 
-No hardcoded poll data
+Duplicate votes blocked
 
-No page reload during navigation
+Voting via AJAX (no reload)
 
-✅ Module 2: IP-Restricted Voting (Core Logic)
+Module 3: Real-Time Results
 
-One vote per poll per IP address
+Live vote counts per option
 
-Restriction enforced server-side using:
-
-Poll ID
-
-IP Address
-
-Vote data stored:
-
-Poll ID
-
-Selected option
-
-IP address
-
-Vote timestamp
-
-Voting handled via AJAX
-
-Duplicate voting from same IP is blocked with a clear message
-
-No page reload during voting
-
-✅ Module 3: Real-Time Poll Results
-
-Live vote counts displayed per option
-
-Results update automatically every ~1 second
+Results update automatically
 
 Implemented using AJAX polling
 
-No page refresh required
+Module 4: IP Release & Audit
 
-Works across multiple tabs/devices
+Admin can view IPs per poll
 
-✅ Module 4: IP Release, Vote Rollback & Audit History
+Admin can release an IP
 
-Admin can:
-
-View all IPs that voted on a poll
-
-Release an IP for a specific poll
-
-When IP is released:
-
-The vote is soft-removed from results
-
-Live results update immediately
+Released votes removed from results
 
 Same IP can vote again after release
 
-Full audit history preserved:
+Complete vote history preserved
 
-Original vote
+How to Test
 
-Release timestamp
+Login using the provided credentials
 
-New vote details
+Create and activate a poll
 
-Votes are never deleted, ensuring traceability
+Vote once from a device
 
-🧪 How to Test (Evaluator Guide)
+Try voting again from the same IP (blocked)
 
-Login using provided credentials
+Observe live result updates
 
-Create a poll and mark it active
+Release IP from admin view
 
-Vote once → success
+Vote again from the same IP
 
-Try voting again from same IP → blocked
+Notes
 
-Observe live results updating automatically
+No hardcoded poll or vote logic
 
-Open admin vote view
+No frontend-only restrictions
 
-Release IP
+No page reloads for voting, results, or IP release
 
-Vote again from same IP → allowed
+Votes are never deleted; history is preserved
 
-Verify old vote is marked as released and history is preserved
+License
 
-🚫 Constraints Followed
-
-❌ No frontend-only vote restriction
-
-❌ No hardcoded poll or vote logic
-
-❌ No page reload for voting, results, or IP release
-
-❌ No deletion of vote data without history
-
-🎯 Key Highlights
-
-Strict backend-enforced IP restriction
-
-Real-time updates without WebSockets
-
-Clean, simple, responsive UI
-
-Audit-safe vote rollback mechanism
-
-Fully compliant with the given problem statement
-
-📄 License
-
-This project is developed for evaluation purposes and follows the MIT License.
-
-✅ Final Note
-
-This implementation strictly follows the provided requirements, uses the mandated technologies, and handles all edge cases including IP release and audit history.
-
-Ready for evaluation and live demonstration.
+MIT License
