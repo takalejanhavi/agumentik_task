@@ -28,7 +28,8 @@ Route::post('/admin/release-ip', [PollController::class, 'releaseIp']);
 Route::middleware('auth')->group(function () {
 
     // Poll creation (admin)
-    Route::get('/polls/create', [PollController::class, 'create']);
+    Route::get('/polls/create', [PollController::class, 'create'])
+    ->name('polls.create');
     Route::post('/polls', [PollController::class, 'store']);
 
     // List all active polls
