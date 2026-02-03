@@ -1,3 +1,23 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Active Polls</h3>
+
+    <div>
+        <a href="{{ route('polls.create') }}" class="btn btn-sm btn-success">
+            + Create Poll
+        </a>
+
+        <a href="{{ route('logout') }}"
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+           class="btn btn-sm btn-outline-danger ms-2">
+            Logout
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+    </div>
+</div>
+
 <h3>Active Polls</h3>
 
 @if($polls->count() === 0)
