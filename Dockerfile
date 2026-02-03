@@ -6,10 +6,14 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libzip-dev \
     libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
     libicu-dev \
+    libcurl4-openssl-dev \
     default-mysql-client \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
         pdo \
         pdo_mysql \
@@ -17,6 +21,11 @@ RUN apt-get update && apt-get install -y \
         zip \
         intl \
         xml \
+        gd \
+        curl \
+        fileinfo \
+        bcmath \
+        openssl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -25,13 +34,20 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy only composer files first (cache optimization)
+# Copy composer files first
 COPY composer.json composer.lock ./
 
-# Install PHP dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+# Increase memory limit for Composer
+ENV COMPOSER_MEMORY_LIMIT=-1
 
-# Copy rest of the application
+# Install dependencies
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader
+
+# Copy the rest of the app
 COPY . .
 
 EXPOSE 10000
